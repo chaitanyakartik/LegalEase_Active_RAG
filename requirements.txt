@@ -1,0 +1,15 @@
+langchain>=0.0.331rc2
+pillow
+pydantic
+lxml
+matplotlib
+PyPDF2
+pdfplumber
+pdf2image
+pytesseract
+pymupdf
+langchain-community
+sentence-transformers
+langchain-openai
+dotenv
+chromadb
