@@ -27,22 +27,10 @@ Requests for Production: Specific documents requested from the other party, such
 Precedent Case Transcripts: Court transcripts from prior proceedings, typically large (~50-100 pages). These provide insights into how similar cases were argued and what evidence was presented.
 Legal Treatises or Books: Books on employment law, offering a detailed discussion of legal principles and wrongful termination cases. These can be large (~100-300 pages).
 
-RAG Flow
+                                        
+  
+  
 ![WORK](https://github.com/user-attachments/assets/b36480f1-84db-4167-b625-49f39803c6d6)
-
-Data storing:
-Store Bunch of legal documents beforehand (summary based embeddings)
-Take PDF input
-Summary based embeddings for text and images
-Query Analysis/reconstruction
-Routing between legal question and not
-Query preprocessing (MultiQuery)
-Data Retrieval
-Semantic vector retrieval
-Grading docs and deciding if we need web retrieval
-RAG generation optimization feedback loop
-Hallucination checker (check relevance based on docs)
-
 
 Possibly add agentic workflow for document generation, or directly ask LLM to generate the document and return it
 Extra Query preprocessing required for voice to text, and output text to voice
