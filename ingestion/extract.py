@@ -34,6 +34,13 @@ def extract_from_docx(file_path: str) -> dict:
     return {"text": text, "images": []}
 
 
+def extract_from_txt(file_path: str) -> dict:
+    """Extract text from a TXT file."""
+    with open(file_path, 'r', encoding='utf-8') as f:
+        text = f.read()
+    return {"text": text, "images": []}
+
+
 def extract(file_path: str) -> dict:
     """Route to correct extractor based on file extension."""
     lower = file_path.lower()
@@ -41,5 +48,7 @@ def extract(file_path: str) -> dict:
         return extract_from_pdf(file_path)
     elif lower.endswith(".docx"):
         return extract_from_docx(file_path)
+    elif lower.endswith(".txt"):
+        return extract_from_txt(file_path)
     else:
         raise ValueError(f"Unsupported file type: {file_path}")

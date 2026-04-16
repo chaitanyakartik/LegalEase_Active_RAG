@@ -7,6 +7,7 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 FLASH_MODEL = "gemini-2.5-flash"
 PRO_MODEL = "gemini-2.5-pro"
+EMBEDDING_MODEL = "models/gemini-embedding-001"
 
 CHROMA_DIR = "chroma_db"
 UPLOADS_DIR = "uploads"

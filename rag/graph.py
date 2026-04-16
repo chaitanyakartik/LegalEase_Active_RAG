@@ -4,6 +4,9 @@ from rag.nodes import (
     question_router, llm_direct, multi_query, retrieve,
     grade_documents, web_search, generate, hallucination_check
 )
+from logging_config import get_logger
+
+logger = get_logger("rag.graph")
 
 MAX_RETRIES = 2
 
@@ -72,6 +75,14 @@ rag_graph = build_graph()
 
 def run_rag(question: str, law_category: str, case_id: str = None) -> str:
     """Run the Active RAG pipeline and return the generated answer."""
+    logger.info("=" * 80)
+    logger.info("🚀 STARTING RAG PIPELINE")
+    logger.info("=" * 80)
+    logger.info(f"Question: {question}")
+    logger.info(f"Category: {law_category}")
+    logger.info(f"Case ID: {case_id or 'None (global search)'}")
+    logger.info("-" * 80)
+
     initial_state: RAGState = {
         "question": question,
         "law_category": law_category,
@@ -86,4 +97,10 @@ def run_rag(question: str, law_category: str, case_id: str = None) -> str:
         "retry_count": 0,
     }
     result = rag_graph.invoke(initial_state)
+
+    logger.info("-" * 80)
+    logger.info("✅ RAG PIPELINE COMPLETE")
+    logger.info(f"Final response: {result.get('generation', '')[:100]}...")
+    logger.info("=" * 80)
+
     return result.get("generation", "I was unable to generate a response.")
