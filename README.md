@@ -32,6 +32,8 @@ Data storage uses summary-based embeddings: text and images are chunked, summari
 ## Setup
 
 ```bash
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
