@@ -1,10 +1,13 @@
-import google.generativeai as genai
 from config import GEMINI_API_KEY, FLASH_MODEL
 from prompts.templates import TIMELINE_PROMPT
 from db.models import add_timeline_event, get_timeline, get_case
+from rag.nodes import fallback_generate
 
-genai.configure(api_key=GEMINI_API_KEY)
-_flash = genai.GenerativeModel(FLASH_MODEL)
+# The local fallback generator uses Groq/Ollama only.
+# The old Gemini prompt path is preserved here in comments for future re-enable.
+# import google.generativeai as genai
+# genai.configure(api_key=GEMINI_API_KEY)
+# _flash = genai.GenerativeModel(FLASH_MODEL)
 
 
 def suggest_timeline_events(case_id: str, law_category: str) -> list[dict]:
@@ -22,7 +25,8 @@ def suggest_timeline_events(case_id: str, law_category: str) -> list[dict]:
         law_category=law_category
     )
 
-    response = _flash.generate_content(prompt).text.strip()
+    # Use fallback generation only (Groq / Ollama) since Gemini/OpenAI quota is disabled.
+    response = fallback_generate(prompt)
     suggestions = []
     for line in response.split("\n"):
         line = line.strip()

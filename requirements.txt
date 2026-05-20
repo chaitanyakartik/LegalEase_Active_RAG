@@ -4,6 +4,7 @@ langchain-google-genai
 langchain-community
 langchain-chroma
 langchain-text-splitters
+langchain-experimental
 langgraph
 chromadb
 pdfplumber
@@ -15,3 +16,8 @@ python-dotenv
 pillow
 typing-extensions
 google-generativeai
+openai>=1.0.0
+groq>=0.4.0
+ollama>=0.1.0
+scikit-learn
+networkx

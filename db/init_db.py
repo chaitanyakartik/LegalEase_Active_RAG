@@ -52,6 +52,15 @@ def init_db():
             content TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
+
+        CREATE TABLE IF NOT EXISTS advanced_analyses (
+            id TEXT PRIMARY KEY,
+            case_id TEXT NOT NULL REFERENCES cases(id),
+            analysis_type TEXT NOT NULL,
+            title TEXT NOT NULL,
+            content TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
     """)
 
     conn.commit()

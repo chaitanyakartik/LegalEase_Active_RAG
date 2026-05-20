@@ -1,12 +1,15 @@
-import google.generativeai as genai
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_chroma import Chroma
 
 from config import GEMINI_API_KEY, PRO_MODEL, CHROMA_DIR
+from rag.embeddings import LocalEmbeddings
 from prompts.templates import SUMMARIZE_PROMPT
+from rag.nodes import fallback_generate
 
-genai.configure(api_key=GEMINI_API_KEY)
-_pro = genai.GenerativeModel(PRO_MODEL)
+# Old direct Gemini/OpenAI code (commented out):
+# import google.generativeai as genai
+# genai.configure(api_key=GEMINI_API_KEY)
+# _pro = genai.GenerativeModel(PRO_MODEL)
+
 
 
 def summarize_document(case_id: str, doc_id: str) -> str:
@@ -14,10 +17,7 @@ def summarize_document(case_id: str, doc_id: str) -> str:
     Retrieve all chunks for a specific document from ChromaDB and
     generate a structured legal summary.
     """
-    embeddings = GoogleGenerativeAIEmbeddings(
-        model="models/embedding-001",
-        google_api_key=GEMINI_API_KEY
-    )
+    embeddings = LocalEmbeddings(dim=256)
     vectorstore = Chroma(
         collection_name=f"case_{case_id}",
         embedding_function=embeddings,
@@ -40,4 +40,6 @@ def summarize_document(case_id: str, doc_id: str) -> str:
     combined = "\n\n---\n\n".join(text_parts[:20])  # Limit to avoid token overflow
 
     prompt = SUMMARIZE_PROMPT.format(content=combined)
-    return _pro.generate_content(prompt).text.strip()
+    # Use fallback generation only (Groq / Ollama) since Gemini/OpenAI quota is disabled.
+    # return _pro.generate_content(prompt).text.strip()
+    return fallback_generate(prompt)

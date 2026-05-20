@@ -1,11 +1,14 @@
-import google.generativeai as genai
 from config import GEMINI_API_KEY, PRO_MODEL
 from prompts.templates import DRAFT_PROMPT
 from rag.graph import run_rag
 from db.models import get_case, save_draft
+from rag.nodes import fallback_generate
 
-genai.configure(api_key=GEMINI_API_KEY)
-_pro = genai.GenerativeModel(PRO_MODEL)
+# Old direct Gemini/OpenAI code (commented out):
+# import google.generativeai as genai
+# genai.configure(api_key=GEMINI_API_KEY)
+# _pro = genai.GenerativeModel(PRO_MODEL)
+
 
 
 def generate_draft(case_id: str, draft_type: str, law_category: str,
@@ -35,7 +38,9 @@ def generate_draft(case_id: str, draft_type: str, law_category: str,
         context=full_context,
         instructions=instructions or "None"
     )
-    draft_content = _pro.generate_content(prompt).text.strip()
+    # Use fallback generation only (Groq / Ollama) since Gemini/OpenAI quota is disabled.
+    # draft_content = _pro.generate_content(prompt).text.strip()
+    draft_content = fallback_generate(prompt)
 
     title = f"{draft_type} - {case.get('title', 'Case') if case else 'Case'}"
     draft_id = save_draft(case_id, draft_type, title, draft_content)

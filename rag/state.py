@@ -15,3 +15,4 @@ class RAGState(TypedDict):
     is_relevant: bool
     is_grounded: bool
     retry_count: int
+    confidence_score: int

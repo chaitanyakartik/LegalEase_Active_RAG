@@ -1,15 +1,18 @@
-import google.generativeai as genai
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from config import GEMINI_API_KEY, FLASH_MODEL, CHUNK_SIZE, CHUNK_OVERLAP
 
-genai.configure(api_key=GEMINI_API_KEY)
-_model = genai.GenerativeModel(FLASH_MODEL)
+# The direct Gemini summarization path is disabled by default to avoid quota issues.
+# The original implementation is preserved below for future re-enable.
+# import google.generativeai as genai
+# genai.configure(api_key=GEMINI_API_KEY)
+# _model = genai.GenerativeModel(FLASH_MODEL)
 
 
 def _summarize_text(text: str) -> str:
     prompt = f"Summarize the following text concisely in 2-3 sentences:\n\n{text}"
     try:
-        return _model.generate_content(prompt).text.strip()
+        # return _model.generate_content(prompt).text.strip()
+        return text[:300]
     except Exception:
         return text[:300]
 
@@ -22,7 +25,8 @@ def _describe_image(b64_image: str) -> str:
         import base64
         img_bytes = base64.b64decode(b64_image)
         img = PIL.Image.open(io.BytesIO(img_bytes))
-        return _model.generate_content([prompt, img]).text.strip()
+        # return _model.generate_content([prompt, img]).text.strip()
+        return "Image content (automatic description disabled to avoid Gemini quota)."
     except Exception:
         return "Image content (could not describe)"
 

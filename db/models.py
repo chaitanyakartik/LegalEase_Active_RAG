@@ -144,3 +144,28 @@ def get_chat_history(case_id: str = None, limit: int = 20) -> list[dict]:
                 (limit,)
             ).fetchall()
     return [dict(r) for r in reversed(rows)]
+
+
+# --- Advanced Analyses ---
+
+def save_advanced_analysis(case_id: str, analysis_type: str, title: str, content: str) -> str:
+    analysis_id = str(uuid.uuid4())
+    with _conn() as conn:
+        conn.execute(
+            "INSERT INTO advanced_analyses (id, case_id, analysis_type, title, content) VALUES (?, ?, ?, ?, ?)",
+            (analysis_id, case_id, analysis_type, title, content)
+        )
+    return analysis_id
+
+
+def get_advanced_analyses(case_id: str) -> list[dict]:
+    with _conn() as conn:
+        rows = conn.execute(
+            "SELECT * FROM advanced_analyses WHERE case_id = ? ORDER BY created_at DESC", (case_id,)
+        ).fetchall()
+    return [dict(r) for r in rows]
+
+
+def delete_advanced_analysis(analysis_id: str):
+    with _conn() as conn:
+        conn.execute("DELETE FROM advanced_analyses WHERE id = ?", (analysis_id,))

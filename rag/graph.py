@@ -83,7 +83,7 @@ def run_rag(question: str, law_category: str, case_id: str = None) -> str:
     logger.info(f"Case ID: {case_id or 'None (global search)'}")
     logger.info("-" * 80)
 
-    initial_state: RAGState = {
+    initial_state = {
         "question": question,
         "law_category": law_category,
         "case_id": case_id,
@@ -95,12 +95,14 @@ def run_rag(question: str, law_category: str, case_id: str = None) -> str:
         "is_relevant": False,
         "is_grounded": False,
         "retry_count": 0,
+        "confidence_score": 5,
     }
     result = rag_graph.invoke(initial_state)
 
     logger.info("-" * 80)
     logger.info("✅ RAG PIPELINE COMPLETE")
     logger.info(f"Final response: {result.get('generation', '')[:100]}...")
+    logger.info(f"Confidence score: {result.get('confidence_score', 5)}/10")
     logger.info("=" * 80)
 
-    return result.get("generation", "I was unable to generate a response.")
+    return result.get("generation", "I was unable to generate a response."), result.get("confidence_score", 5)
