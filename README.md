@@ -114,3 +114,48 @@ CREATE TABLE IF NOT EXISTS advanced_analyses (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (case_id) REFERENCES cases(id)
 );
+
+
+# Research Paper References
+
+## 1. Adaptive RAG
+
+### Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity
+- **Authors:** Jeong et al.
+- **Conference:** NAACL 2024
+- **Link:** https://arxiv.org/abs/2403.14403
+
+---
+
+## 2. Hallucination Detection / Self-Reflection
+
+### Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection
+- **Authors:** Asai et al.
+- **Conference:** ICLR 2024
+- **Link:** https://arxiv.org/abs/2310.11511
+
+---
+
+## 3. Agentic Orchestration
+
+### ReAct: Synergizing Reasoning and Acting in Language Models
+- **Authors:** Yao et al.
+- **Conference:** ICLR 2023
+- **Link:** https://arxiv.org/abs/2210.03629
+
+---
+
+## 4. Vector Store / Dense Retrieval
+
+### Dense Passage Retrieval for Open-Domain Question Answering
+- **Authors:** Karpukhin et al.
+- **Conference:** EMNLP 2020
+- **Link:** https://aclanthology.org/2020.emnlp-main.550
+
+---
+
+## 5. AI in Legal Tech
+
+### Natural Language Processing for the Legal Domain: A Survey of Tasks, Datasets, Models, and Challenges
+- **Source:** arXiv 2024
+- **Link:** https://arxiv.org/abs/2410.21306
